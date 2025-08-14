@@ -33,7 +33,7 @@ namespace AvaloniaApplication1
                 BindingPlugins.DataValidators.RemoveAt(0);
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = vm_0
                 };
             }
 
