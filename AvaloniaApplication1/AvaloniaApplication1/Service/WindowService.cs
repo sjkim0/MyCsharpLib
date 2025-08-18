@@ -11,6 +11,7 @@ namespace AvaloniaApplication1.Service
 {
     public class WindowService : IWindowService
     {
+        // singletone default injection
         private readonly IServiceProvider _provider;
         private readonly Dictionary<Type, Type> _vm_types;  // view model type 정보 저장해 datacontext 설정시 serivce provider에서 viewmodel을 긁어온다.
         private readonly Dictionary<Type, Window> _windows;
@@ -47,5 +48,8 @@ namespace AvaloniaApplication1.Service
         {
             _vm_types[typeof(T)] = typeof(VM);
         }
+        // register 함수 사용 예(in App.cs after build provider)
+        //  var window_service = provider.GetRequiredService<IWindowService>();
+        //  window_service.Register<Window1, Window1ViewModel>();
     }
 }

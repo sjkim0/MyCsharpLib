@@ -18,7 +18,7 @@
     </Design.DataContext>
 
   <StackPanel>
-    <Button Command="{Binding MyButtonOpenCommand}" Width="100"></Button>
+    <Button Command="{Binding MySerialTestButtonCommand}" Width="100"></Button>
     <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </StackPanel>
 

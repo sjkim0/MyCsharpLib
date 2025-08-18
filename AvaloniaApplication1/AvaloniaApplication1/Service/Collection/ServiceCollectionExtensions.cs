@@ -28,6 +28,9 @@ namespace AvaloniaApplication1.Service.Collection
 
             // Imessenger 등록
             collection.AddSingleton<IMessenger, WeakReferenceMessenger>();
+
+            // Iserialservice 등록
+            collection.AddSingleton<ISerialService, SerialService>();
         }
     }
 }
