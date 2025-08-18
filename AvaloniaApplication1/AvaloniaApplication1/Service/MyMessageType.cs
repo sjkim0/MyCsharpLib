@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AvaloniaApplication1.Service
 {
@@ -13,16 +14,19 @@ namespace AvaloniaApplication1.Service
     {
         public MyMessageType(string value) : base(value)
         {
-            WeakReferenceMessenger.Default.Register<MyMessageType>(this, (r, m) =>
-            {
-                 MyMessengerReceive(m.Value);
-            });
         }
 
-        public void MyMessengerReceive(string value)
-        {
-        }
+        // 토큰 버전 receive
+        // 아래는 토큰을 this.GetType().ToString()으로 생성해서 처리하는 코드이다.
+        //WeakReferenceMessenger.Default.Register<MyMessageType, string>(this, this.GetType().ToString(), ReceiveMessage);
+        //private void ReceiveMessage(object recipient, MyMessageType message)
+        //{
+        //}
+        // 토큰 버전 send
+        //  WeakReferenceMessenger.Default.Send(new MyMessageType("TEST_CODE"), this.GetType().ToString());
 
+
+        // 단순 구현 receive
         // How to register receiver in viewmodel.. Make code below in viewmodel
         //  WeakReferenceMessenger.Default.Register<MyMessageType>(this, (r, m) =>
         //  {
@@ -33,6 +37,7 @@ namespace AvaloniaApplication1.Service
         //  {
         //  }
 
+        // 단순 구현 send
         //  How to send message in viewmodel
         //  private void SendMessage()
         //  {

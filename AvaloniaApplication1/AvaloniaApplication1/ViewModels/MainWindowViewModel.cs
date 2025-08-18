@@ -14,7 +14,6 @@ namespace AvaloniaApplication1.ViewModels
         private readonly IDeviceStateService _deviceStateService;
         private readonly IWindowService _windowservice;
         
-
         // just for design
         public MainWindowViewModel()
         {
@@ -30,16 +29,14 @@ namespace AvaloniaApplication1.ViewModels
             _deviceStateService.AddBoard("my_board after");
 
             // messenger 등록
-            WeakReferenceMessenger.Default.Register<MyMessageType>(this, (r, m) =>
-            {
-                MyMessageReceiveTest(m.Value);
-            });
+            WeakReferenceMessenger.Default.Register<MyMessageType, string>(this, this.GetType().ToString(), ReceiveMessage);
         }
 
         [RelayCommand]
         private void MyButtonOpen()
         {
             _windowservice.show<Window1>();
+            WeakReferenceMessenger.Default.Send(new MyMessageType("TEST_CODE"), this.GetType().ToString());
         }
 
         [RelayCommand]
@@ -48,7 +45,7 @@ namespace AvaloniaApplication1.ViewModels
             _windowservice.close<Window1>();
         }
 
-        private void MyMessageReceiveTest(string m)
+        private void ReceiveMessage(object recipient, MyMessageType message)
         {
 
         }
