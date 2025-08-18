@@ -35,7 +35,6 @@ namespace AvaloniaApplication1.ViewModels
             // messenger 등록
             WeakReferenceMessenger.Default.Register<MyMessageType, string>(this, this.GetType().ToString(), ReceiveMessage);
 
-
             // serial service 등록
             _serialservice.DataReceivedByte += SerialDataReceived;
         }
@@ -58,7 +57,7 @@ namespace AvaloniaApplication1.ViewModels
         private void MySubWindowTestButton()
         {
             _windowservice.show<Window1>();
-            WeakReferenceMessenger.Default.Send(new MyMessageType("TEST_CODE"), this.GetType().ToString());
+            WeakReferenceMessenger.Default.Send(new MyMessageType("TEST_CODE"), typeof(Window1ViewModel).ToString());
         }
 
         [RelayCommand]
