@@ -7,7 +7,9 @@ using AvaloniaApplication1.ViewModels;
 using AvaloniaApplication1.Views;
 using Microsoft.Extensions.DependencyInjection;
 
-using AvaloniaApplication1.Service.Collection;  // addCommonService 인식
+using AvaloniaApplication1.Service.Collection;
+using AvaloniaApplication1.Service.Interface;
+using AvaloniaApplication1.Service;  // addCommonService 인식
 
 namespace AvaloniaApplication1
 {
@@ -25,6 +27,10 @@ namespace AvaloniaApplication1
             var provider = services.BuildServiceProvider();
 
             var vm_0 = provider.GetRequiredService<MainWindowViewModel>();
+
+            // mapping in bootstrap
+            var window_service = provider.GetRequiredService<IWindowService>();
+            window_service.Register<Window1, Window1ViewModel>();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

@@ -1,17 +1,24 @@
 ﻿using Avalonia.Controls;
+using AvaloniaApplication1.Service;
 using AvaloniaApplication1.Service.Interface;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using System;
 
 namespace AvaloniaApplication1.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-#pragma warning disable CA1822 // Mark members as static
         public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
 
         private readonly IDeviceStateService _deviceStateService;
         private readonly IWindowService _windowservice;
+        
+
+        // just for design
+        public MainWindowViewModel()
+        {
+        }
 
         public MainWindowViewModel(IDeviceStateService deviceStateService,
                                    IWindowService windowservice)
@@ -21,6 +28,12 @@ namespace AvaloniaApplication1.ViewModels
 
             _deviceStateService.AddBoard("my_board before");
             _deviceStateService.AddBoard("my_board after");
+
+            // messenger 등록
+            WeakReferenceMessenger.Default.Register<MyMessageType>(this, (r, m) =>
+            {
+                MyMessageReceiveTest(m.Value);
+            });
         }
 
         [RelayCommand]
@@ -33,6 +46,11 @@ namespace AvaloniaApplication1.ViewModels
         private void MyButtonClose()
         {
             _windowservice.close<Window1>();
+        }
+
+        private void MyMessageReceiveTest(string m)
+        {
+
         }
     }
 }

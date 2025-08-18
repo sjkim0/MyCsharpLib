@@ -17,12 +17,13 @@ namespace AvaloniaApplication1.Service
 
         public void AddBoard(string name)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public int GetBoardCount()
         {
-            throw new NotImplementedException();
+            return 0;
+            // throw new NotImplementedException();
         }
     }
 }

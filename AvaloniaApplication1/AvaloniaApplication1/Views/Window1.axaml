@@ -1,9 +1,14 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="using:AvaloniaApplication1.ViewModels"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaApplication1.Window1"
+        x:DataType="vm:Window1ViewModel"
         Title="Window1">
   Welcome to Avalonia!
+  <Design.DataContext>
+    <vm:Window1ViewModel></vm:Window1ViewModel>
+  </Design.DataContext>
 </Window>
