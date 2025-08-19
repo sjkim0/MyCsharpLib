@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AvaloniaApplication1.DataType.MyPacketType;
 
 namespace AvaloniaApplication1.Service
 {
@@ -53,9 +54,7 @@ namespace AvaloniaApplication1.Service
 
         void Loop(byte data)
         {
-            byte now_data = myPacket.data_buff[myPacket.data_buff_head];
-
-            switch (now_data)
+            switch (data)
             {
                 case (byte)ENUM_SPECIAL_CHAR.ENUM_SPECIAL_CHAR_ASTERISK:
                     if(myPacket.packet_state != MyPacketType.PACKET_STATE.PACKET_STATE_BINARY_PARSE_STARTED)
@@ -67,7 +66,7 @@ namespace AvaloniaApplication1.Service
                     myPacket.packet_state = MyPacketType.PACKET_STATE.PACKET_STATE_ASCII_PARSE_STARTED;
                     if (CheckSumCheck() == true)
                     {
-                        Parsed.Invoke(this, myPacket);  // Return event to viewmodel for parse done
+                        CallAsciiParseDone();
                     }
                     resetDataBuff();
                     break;
@@ -75,7 +74,7 @@ namespace AvaloniaApplication1.Service
                     myPacket.packet_state = MyPacketType.PACKET_STATE.PACKET_STATE_ASCII_PARSE_STARTED;
                     if (CheckSumCheck() == true)
                     {
-                        Parsed.Invoke(this, myPacket);  // Return event to viewmodel for parse done
+                        CallAsciiParseDone();
                     }
                     resetDataBuff();
                     break;
@@ -86,7 +85,8 @@ namespace AvaloniaApplication1.Service
                     }
                     else
                     {
-                        myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                        myPacket.data_buff[myPacket.data_buff_head] = data;
+                        goToNextDataBuff();
                     }
                     break;
                 case (byte)ENUM_SPECIAL_BYTE.ENUM_SPECIAL_BYTE_END:
@@ -94,13 +94,14 @@ namespace AvaloniaApplication1.Service
                     {
                         if(CheckSumCheck() == true)
                         {
-                            Parsed.Invoke(this, myPacket);  // Return event to viewmodel for parse done
+                            CallBinaryParseDone();
                         }
                         resetDataBuff();
                     }
                     else
                     {
-                        myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                        myPacket.data_buff[myPacket.data_buff_head] = data;
+                        goToNextDataBuff();
                     }
                     break;
                 case (byte)ENUM_SPECIAL_BYTE.ENUM_SPECIAL_BYTE_ASTERISK:
@@ -111,7 +112,8 @@ namespace AvaloniaApplication1.Service
                     }
                     else
                     {
-                        myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                        myPacket.data_buff[myPacket.data_buff_head] = data;
+                        goToNextDataBuff();
                     }
                     break;
                 case (byte)ENUM_SPECIAL_BYTE.ENUM_SPECIAL_BYTE_LF:
@@ -122,7 +124,8 @@ namespace AvaloniaApplication1.Service
                     }
                     else
                     {
-                        myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                        myPacket.data_buff[myPacket.data_buff_head] = data;
+                        goToNextDataBuff();
                     }
                     break;
                 case (byte)ENUM_SPECIAL_BYTE.ENUM_SPECIAL_BYTE_CR:
@@ -133,20 +136,64 @@ namespace AvaloniaApplication1.Service
                     }
                     else
                     {
-                        myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                        myPacket.data_buff[myPacket.data_buff_head] = data;
+                        goToNextDataBuff();
                     }
                     break;
                 default:
                     myPacket.packet_state = MyPacketType.PACKET_STATE.PACKET_STATE_PARSE_END;
-                    myPacket.data_buff[myPacket.data_buff_head] = now_data;
+                    myPacket.data_buff[myPacket.data_buff_head] = data;
+                    goToNextDataBuff();
                     break;
             }
-            goToNextDataBuff();
+        }
+
+        void CallBinaryParseDone()
+        {
+            // TODO: 패킷 정보 처리
+
+            ushort packet_buff = myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_UP_CMD_HIGH];
+            packet_buff = (ushort)(packet_buff << 8);
+            packet_buff += myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_UP_CMD_LOW];
+            myPacket.cmd_up = packet_buff;
+
+            packet_buff = myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_DOWN_CMD_HIGH];
+            packet_buff = (ushort)(packet_buff << 8);
+            packet_buff += myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_DOWN_CMD_LOW];
+            myPacket.cmd_down = packet_buff;
+
+            packet_buff = myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_LENGTH_HIGH];
+            packet_buff = (ushort)(packet_buff << 8);
+            packet_buff += myPacket.data_buff[(int)ENUM_DATA_INDEX.ENUM_DATA_LENGTH_LOW];
+            myPacket.data_length = packet_buff;
+
+            Parsed.Invoke(this, myPacket);  // Return event to viewmodel for parse done
+        }
+
+        void CallAsciiParseDone()
+        {
+            Parsed.Invoke(this, myPacket);  // Return event to viewmodel for parse done
         }
 
         bool CheckSumCheck()
         {
-            throw new NotImplementedException();
+            byte checksum_buff = myPacket.data_buff[0];
+            byte received_checksum = myPacket.data_buff[myPacket.data_buff_head - 1];
+            int end_of_data_index = myPacket.data_buff_head - 2;
+
+            for (int i = 1; i <= end_of_data_index; i++)
+            {
+                checksum_buff ^= myPacket.data_buff[i];
+            }
+            if(checksum_buff == received_checksum)
+            {
+                myPacket.check_sum = checksum_buff;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         void goToNextDataBuff()

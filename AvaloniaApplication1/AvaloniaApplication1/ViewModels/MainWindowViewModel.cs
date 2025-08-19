@@ -48,7 +48,7 @@ namespace AvaloniaApplication1.ViewModels
 
             // parse service callback 등록
             _myParserService.Parsed += ParcedCallback;
-            byte[] data = { 1, 2, 3, 4 };
+            byte[] data = { (byte)'*', 0, 0, 1, 2, 3, 4, 4, (byte)'*', 1};
             _myParserService.Push(data);
         }
 
