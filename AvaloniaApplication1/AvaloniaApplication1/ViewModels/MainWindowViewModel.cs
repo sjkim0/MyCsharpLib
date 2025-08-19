@@ -1,5 +1,5 @@
 ﻿using Avalonia.Controls;
-using AvaloniaApplication1.Service;
+using AvaloniaApplication1.DataType;
 using AvaloniaApplication1.Service.Interface;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -13,10 +13,10 @@ namespace AvaloniaApplication1.ViewModels
     {
         public string Greeting => "Welcome to Avalonia!";
 
-        private readonly IDeviceStateService _deviceStateService;
-        private readonly IWindowService _windowservice;
-        private readonly ISerialService _serialservice;
-        private readonly IMyMessageBoxService _myMessageboxService;
+        private readonly IDeviceStateService? _deviceStateService;
+        private readonly IWindowService? _windowservice;
+        private readonly ISerialService? _serialservice;
+        private readonly IMyMessageBoxService? _myMessageboxService;
         
         // just for design
         public MainWindowViewModel()
