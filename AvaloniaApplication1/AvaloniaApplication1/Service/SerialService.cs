@@ -12,8 +12,9 @@ namespace AvaloniaApplication1.Service
     {
         private SerialPort? _port;
 
-        public event EventHandler<string> DataReceivedString;
-        public event EventHandler<byte[]> DataReceivedByte;
+        // 표준 이벤트 핸들러
+        public event EventHandler<string>? DataReceivedString;
+        public event EventHandler<byte[]>? DataReceivedByte;
 
         bool byte_read = true;
 
