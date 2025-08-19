@@ -17,6 +17,8 @@ namespace AvaloniaApplication1.ViewModels
         private readonly IWindowService? _windowservice;
         private readonly ISerialService? _serialservice;
         private readonly IMyMessageBoxService? _myMessageboxService;
+        private readonly IMyParserService? _myParserService;
+        
         
         // just for design
         public MainWindowViewModel()
@@ -26,12 +28,14 @@ namespace AvaloniaApplication1.ViewModels
         public MainWindowViewModel(IDeviceStateService deviceStateService,
                                    IWindowService windowservice,
                                    ISerialService serialservice,
-                                   IMyMessageBoxService myMessageboxService)
+                                   IMyMessageBoxService myMessageboxService,
+                                   IMyParserService myParserService)
         {
             _deviceStateService = deviceStateService;
             _windowservice = windowservice;
             _serialservice = serialservice;
             _myMessageboxService = myMessageboxService;
+            _myParserService = myParserService;
 
             _deviceStateService.AddBoard("my_board before");
             _deviceStateService.AddBoard("my_board after");
@@ -42,7 +46,15 @@ namespace AvaloniaApplication1.ViewModels
             // serial service 등록
             _serialservice.DataReceivedByte += SerialDataReceived;
 
-            
+            // parse service callback 등록
+            _myParserService.Parsed += ParcedCallback;
+            byte[] data = { 1, 2, 3, 4 };
+            _myParserService.Push(data);
+        }
+
+        private void ParcedCallback(object? sender, MyPacketType e)
+        {
+            throw new NotImplementedException();
         }
 
         private void SerialDataReceived(object? sender, byte[] e)

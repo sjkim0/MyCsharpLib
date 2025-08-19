@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AvaloniaApplication1.Service
 {
-    public class MyParserService : IMyParser
+    public class MyParserService : IMyParserService
     {
         private MyPacketType myPacket;
 
@@ -51,7 +51,7 @@ namespace AvaloniaApplication1.Service
             ENUM_SPECIAL_BYTE_CR = 4   // *, 4 -> \r
         }
 
-        public void Loop(byte data)
+        void Loop(byte data)
         {
             byte now_data = myPacket.data_buff[myPacket.data_buff_head];
 
@@ -144,7 +144,7 @@ namespace AvaloniaApplication1.Service
             goToNextDataBuff();
         }
 
-        public bool CheckSumCheck()
+        bool CheckSumCheck()
         {
             throw new NotImplementedException();
         }

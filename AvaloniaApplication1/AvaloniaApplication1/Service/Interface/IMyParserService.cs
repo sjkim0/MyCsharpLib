@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace AvaloniaApplication1.Service.Interface
 {
-    public interface IMyParser
+    public interface IMyParserService
     {
         void Push(byte[] data);
         void ClearParser();
-        void Loop(byte data);
-
-        bool CheckSumCheck();
 
         event EventHandler<MyPacketType> Parsed;
     }

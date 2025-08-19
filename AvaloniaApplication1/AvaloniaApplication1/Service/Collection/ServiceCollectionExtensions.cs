@@ -34,6 +34,9 @@ namespace AvaloniaApplication1.Service.Collection
 
             // messagebox service 등록
             collection.AddTransient<IMyMessageBoxService, MyMessageBoxService>();
+
+            // parser service 등록
+            collection.AddTransient<IMyParserService, MyParserService>();
         }
     }
 }
