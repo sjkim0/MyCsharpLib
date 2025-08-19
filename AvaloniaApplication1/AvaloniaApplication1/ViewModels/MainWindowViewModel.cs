@@ -48,24 +48,43 @@ namespace AvaloniaApplication1.ViewModels
 
             // parse service callback 등록
             _myParserService.Parsed += ParcedCallback;
-            byte[] data = { (byte)'*', 0, 0, 1, 2, 3, 4, 4, (byte)'*', 1};
-            _myParserService.Push(data);
         }
 
         private void ParcedCallback(object? sender, MyPacketType e)
         {
-            throw new NotImplementedException();
+            if (_myMessageboxService == null)
+            {
+                return;
+            }
+            _myMessageboxService.showErrorBox("PARSE WORKED", "PARSE WORKED");
         }
+
+
 
         private void SerialDataReceived(object? sender, byte[] e)
         {
             string test = Encoding.Default.GetString(e);
         }
 
+        [RelayCommand]
+        private void MyParseTestButton()
+        {
+            if(_myParserService == null)
+            {
+                return;
+            }
+            byte[] data = { (byte)'*', 0, 0, 1, 2, 3, 4, 4, (byte)'*', 1 };
+            _myParserService.Push(data);
+        }
+
         // message box test command
         [RelayCommand]
         private async Task MyMessageboxTestButton()
         {
+            if (_myMessageboxService == null)
+            {
+                return;
+            }
             bool ret = await _myMessageboxService.showYesNoBox("MY CAPTION", "MY MESSAGE");
 
             if(ret == true)
