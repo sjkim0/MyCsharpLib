@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AvaloniaApplication1.ViewModels
 {
@@ -15,6 +16,7 @@ namespace AvaloniaApplication1.ViewModels
         private readonly IDeviceStateService _deviceStateService;
         private readonly IWindowService _windowservice;
         private readonly ISerialService _serialservice;
+        private readonly IMyMessageBoxService _myMessageboxService;
         
         // just for design
         public MainWindowViewModel()
@@ -23,20 +25,24 @@ namespace AvaloniaApplication1.ViewModels
 
         public MainWindowViewModel(IDeviceStateService deviceStateService,
                                    IWindowService windowservice,
-                                   ISerialService serialservice)
+                                   ISerialService serialservice,
+                                   IMyMessageBoxService myMessageboxService)
         {
             _deviceStateService = deviceStateService;
             _windowservice = windowservice;
             _serialservice = serialservice;
+            _myMessageboxService = myMessageboxService;
 
             _deviceStateService.AddBoard("my_board before");
             _deviceStateService.AddBoard("my_board after");
 
             // messenger 등록
-            WeakReferenceMessenger.Default.Register<MyMessageType, string>(this, this.GetType().ToString(), ReceiveMessage);
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, this.GetType().ToString(), ReceiveMessage);
 
             // serial service 등록
             _serialservice.DataReceivedByte += SerialDataReceived;
+
+            
         }
 
         private void SerialDataReceived(object? sender, byte[] e)
@@ -44,6 +50,23 @@ namespace AvaloniaApplication1.ViewModels
             string test = Encoding.Default.GetString(e);
         }
 
+        // message box test command
+        [RelayCommand]
+        private async Task MyMessageboxTestButton()
+        {
+            bool ret = await _myMessageboxService.showYesNoBox("MY CAPTION", "MY MESSAGE");
+
+            if(ret == true)
+            {
+                _myMessageboxService.showErrorBox("TRUE IS COMMING", "TRUE IS COMMING");
+            }
+            else
+            {
+                _myMessageboxService.showErrorBox("FALSE OR QUIT IS COMMING", "FALSE OR QUIT IS COMMING");
+            }
+        }
+
+        // serial test button command
         [RelayCommand]
         private void MySerialTestButton()
         {
@@ -52,12 +75,11 @@ namespace AvaloniaApplication1.ViewModels
             _serialservice.writeAsyncString("1234\r\n");
         }
 
-
         [RelayCommand]
         private void MySubWindowTestButton()
         {
             _windowservice.show<Window1>();
-            WeakReferenceMessenger.Default.Send(new MyMessageType("TEST_CODE"), typeof(Window1ViewModel).ToString());
+            WeakReferenceMessenger.Default.Send(new MyMessengerType("TEST_CODE"), typeof(Window1ViewModel).ToString());
         }
 
         [RelayCommand]
@@ -66,7 +88,7 @@ namespace AvaloniaApplication1.ViewModels
             _windowservice.close<Window1>();
         }
 
-        private void ReceiveMessage(object recipient, MyMessageType message)
+        private void ReceiveMessage(object recipient, MyMessengerType message)
         {
 
         }

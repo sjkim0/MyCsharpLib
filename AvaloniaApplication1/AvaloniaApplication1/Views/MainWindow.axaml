@@ -18,7 +18,8 @@
     </Design.DataContext>
 
   <StackPanel>
-    <Button Command="{Binding MySubWindowTestButtonCommand}" Width="100"></Button>
+    <Button Content="SubwindowTest" Command="{Binding MySubWindowTestButtonCommand}" Width="200" Height="30"></Button>
+    <Button Content="MessageboxTest" Command="{Binding MyMessageboxTestButtonCommand}" Width="200" Height="30"></Button>
     <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </StackPanel>
 

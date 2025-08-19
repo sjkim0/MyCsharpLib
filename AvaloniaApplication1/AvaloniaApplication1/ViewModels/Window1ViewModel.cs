@@ -12,12 +12,11 @@ namespace AvaloniaApplication1.ViewModels
     {
         public Window1ViewModel()
         {
-            WeakReferenceMessenger.Default.Register<MyMessageType, string>(this, this.GetType().ToString(), ReceiveMessage);
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, this.GetType().ToString(), ReceiveMessage);
         }
 
-        private void ReceiveMessage(object recipient, MyMessageType message)
+        private void ReceiveMessage(object recipient, MyMessengerType message)
         {
-            throw new NotImplementedException();
         }
     }
 }

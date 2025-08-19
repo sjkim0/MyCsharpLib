@@ -31,6 +31,9 @@ namespace AvaloniaApplication1.Service.Collection
 
             // Iserialservice 등록
             collection.AddSingleton<ISerialService, SerialService>();
+
+            // messagebox service 등록
+            collection.AddTransient<IMyMessageBoxService, MyMessageBoxService>();
         }
     }
 }
