@@ -1,4 +1,5 @@
-﻿using Avalonia.Remote.Protocol;
+﻿using Avalonia.Media;
+using Avalonia.Remote.Protocol;
 using AvaloniaApplication1.DataType;
 using AvaloniaApplication1.Service.Interface;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,7 +9,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AvaloniaApplication1.ViewModels
 {
@@ -18,6 +21,9 @@ namespace AvaloniaApplication1.ViewModels
 
         [ObservableProperty]
         ObservableCollection<MyDataGridItem> my_item;
+
+        [ObservableProperty]
+        bool auto_gen_column = false;
 
         public DataGridTestWindowViewModel()  // for design
         {
@@ -31,15 +37,31 @@ namespace AvaloniaApplication1.ViewModels
 
             My_item = new ObservableCollection<MyDataGridItem>();
 
+            // column filling test
             foreach (int data in Enumerable.Range(0, 10))
             {
                 My_item.Add(new MyDataGridItem($"column{data}", $"column{data}", $"column{data}", $"column{data}", $"column{data}"));
             }
+
+            Task task = AutoGenerateColumn(true);
         }
 
         private void ReceiveMessage(object recipient, MyMessengerType message)
         {
             throw new NotImplementedException();
+        }
+
+
+        public async Task AutoGenerateColumn(bool setter)
+        {
+            // await Task.Run(() => Thread.Sleep(5000));
+            await Task.Delay(5000);
+
+            //await Task.Run(() => Auto_gen_column = setter;
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            {
+                Auto_gen_column = setter;
+            });
         }
     }
 }
