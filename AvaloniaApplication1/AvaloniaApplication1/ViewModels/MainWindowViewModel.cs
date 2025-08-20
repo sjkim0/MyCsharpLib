@@ -41,7 +41,7 @@ namespace AvaloniaApplication1.ViewModels
             _deviceStateService.AddBoard("my_board after");
 
             // messenger 등록
-            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, this.GetType().ToString(), ReceiveMessage);
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, typeof(MainWindowViewModel).ToString(), ReceiveMessage);
 
             // serial service 등록
             _serialservice.DataReceivedByte += SerialDataReceived;

@@ -12,6 +12,8 @@ namespace AvaloniaApplication1.DataType
 {
     public class MyMessengerType : ValueChangedMessage<string>
     {
+        // viewmodel에서 등록하고 send하는것으로 한다. serivce화 하기엔 현재 기술부채가 너무 크다
+        // token은 뷰모델의 type으로 한다. ex) typeof(Window1ViewModel).ToString()
         public MyMessengerType(string value) : base(value)
         {
         }
