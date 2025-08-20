@@ -17,14 +17,10 @@ namespace AvaloniaApplication1.Service.Collection
         public static void AddCommonService(this IServiceCollection collection)
         {
             collection.AddTransient<IDeviceStateService, DeviceStateService>();
-            collection.AddTransient<MainWindowViewModel>();
 
             // window service 등록
             collection.AddSingleton<IWindowService, WindowService>();
 
-            // sub window DI
-            collection.AddTransient<Window1ViewModel>();
-            collection.AddTransient<Window1>();
 
             // Imessenger 등록
             collection.AddSingleton<IMessenger, WeakReferenceMessenger>();
@@ -37,6 +33,16 @@ namespace AvaloniaApplication1.Service.Collection
 
             // parser service 등록
             collection.AddTransient<IMyParserService, MyParserService>();
+
+            // view model 등록 start
+            collection.AddTransient<MainWindowViewModel>();
+
+            collection.AddTransient<Window1ViewModel>();
+            collection.AddTransient<Window1>();
+
+            collection.AddTransient<DataGridTestWindowViewModel>();
+            collection.AddTransient<DataGridTestWindow>();
+            // view model 등록 end
         }
     }
 }

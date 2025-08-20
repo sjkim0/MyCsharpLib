@@ -31,6 +31,7 @@ namespace AvaloniaApplication1
             // mapping in bootstrap
             var window_service = provider.GetRequiredService<IWindowService>();
             window_service.Register<Window1, Window1ViewModel>();
+            window_service.Register<DataGridTestWindow, DataGridTestWindowViewModel>();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

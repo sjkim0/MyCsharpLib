@@ -14,7 +14,6 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel>
         </vm:MainWindowViewModel>
-      
     </Design.DataContext>
 
   <StackPanel>
@@ -22,6 +21,7 @@
     <Button Content="SubwindowTest" Command="{Binding MySubWindowTestButtonCommand}" Width="200" Height="30"></Button>
     <Button Content="MessageboxTest" Command="{Binding MyMessageboxTestButtonCommand}" Width="200" Height="30"></Button>
     <Button Content="ParseTest" Command="{Binding MyParseTestButtonCommand}" Width="200" Height="30"></Button>
+    <Button Content="DataGridTest" Command="{Binding MyDataGridTestCommand}" Width="200" Height="30"></Button>
     <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </StackPanel>
 

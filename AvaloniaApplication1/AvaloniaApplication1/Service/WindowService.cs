@@ -23,30 +23,33 @@ namespace AvaloniaApplication1.Service
             _vm_types = new Dictionary<Type, Type>();
         }
 
-        public void close<T>() where T : Window
+        public void close<VM>() where VM : class
         {
-            if (_windows.ContainsKey(typeof(T)))
+            if (_windows.ContainsKey(typeof(VM)))
             {
-                _windows[typeof(T)].Close();
-                _windows.Remove(typeof(T));
+                _windows[typeof(VM)].Close();
+                _windows.Remove(typeof(VM));
             }
         }
 
-        public void show<T>() where T : Window
+        public void show<VM>() where VM : class
         {
-            var window = _provider.GetRequiredService<T>();
+            var vmtype = typeof(VM);
+            var viewType = _vm_types[typeof(VM)];
 
-            if (_windows.TryAdd(typeof(T), window))
+            var window = _provider.GetRequiredService(viewType);
+
+            if (_windows.TryAdd(typeof(VM), (Window)window))
             {
-                _windows[typeof(T)].DataContext = _provider.GetRequiredService(_vm_types[typeof(T)]);
-                _windows[typeof(T)].Show();
+                _windows[typeof(VM)].DataContext = _provider.GetRequiredService(vmtype);
+                _windows[typeof(VM)].Show();
             }
         }
 
         // call in App.cs for push viewmodel
-        public void Register<T, VM>() where T : Window
+        public void Register<WINDOW_T, VM>() where WINDOW_T : Window
         {
-            _vm_types[typeof(T)] = typeof(VM);
+            _vm_types[typeof(VM)] = typeof(WINDOW_T);
         }
         // register 함수 사용 예(in App.cs after build provider)
         //  var window_service = provider.GetRequiredService<IWindowService>();

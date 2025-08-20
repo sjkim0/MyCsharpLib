@@ -27,7 +27,6 @@ namespace AvaloniaApplication1.DataType
             ENUM_DATA_DATA_START,
         }
 
-
         public PACKET_STATE packet_state;
         public const int whole_buffer_lenght = 1024;
 
@@ -39,7 +38,5 @@ namespace AvaloniaApplication1.DataType
 
         public byte[] data_buff = new byte[whole_buffer_lenght];
         public byte check_sum { get; set; }
-
-
     }
 }

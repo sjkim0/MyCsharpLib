@@ -18,8 +18,7 @@ namespace AvaloniaApplication1.ViewModels
         private readonly ISerialService? _serialservice;
         private readonly IMyMessageBoxService? _myMessageboxService;
         private readonly IMyParserService? _myParserService;
-        
-        
+
         // just for design
         public MainWindowViewModel()
         {
@@ -36,6 +35,7 @@ namespace AvaloniaApplication1.ViewModels
             _serialservice = serialservice;
             _myMessageboxService = myMessageboxService;
             _myParserService = myParserService;
+
 
             _deviceStateService.AddBoard("my_board before");
             _deviceStateService.AddBoard("my_board after");
@@ -101,6 +101,10 @@ namespace AvaloniaApplication1.ViewModels
         [RelayCommand]
         private void MySerialTestButton()
         {
+            if (_serialservice == null)
+            {
+                return;
+            }
             string[] scan_port_arr = _serialservice.scanPort();
             _serialservice.Open(scan_port_arr[0], 115200);
             _serialservice.writeAsyncString("1234\r\n");
@@ -109,19 +113,37 @@ namespace AvaloniaApplication1.ViewModels
         [RelayCommand]
         private void MySubWindowTestButton()
         {
-            _windowservice.show<Window1>();
+            if (_windowservice == null)
+            {
+                return;
+            }
+            _windowservice.show<Window1ViewModel>();
             WeakReferenceMessenger.Default.Send(new MyMessengerType("TEST_CODE"), typeof(Window1ViewModel).ToString());
         }
 
         [RelayCommand]
         private void MyButtonClose()
         {
-            _windowservice.close<Window1>();
+            if (_windowservice == null)
+            {
+                return;
+            }
+            _windowservice.close<Window1ViewModel>();
         }
 
         private void ReceiveMessage(object recipient, MyMessengerType message)
         {
 
+        }
+
+        [RelayCommand]
+        private void MyDataGridTest()
+        {
+            if(_windowservice == null)
+            {
+                return;
+            }
+            _windowservice.show<DataGridTestWindowViewModel>();
         }
     }
 }

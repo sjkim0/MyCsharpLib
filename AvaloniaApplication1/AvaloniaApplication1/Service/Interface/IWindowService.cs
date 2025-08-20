@@ -10,8 +10,8 @@ namespace AvaloniaApplication1.Service.Interface
     public interface IWindowService
     {
         // getrequiredservice<t>에 리턴하기위해 T를 규명한다.
-        void show<T>() where T : Window;
-        void close<T>() where T : Window;
-        void Register<T, VM>() where T : Window;
+        void show<VM>() where VM : class;
+        void close<VM>() where VM : class;
+        void Register<WINDOW_T, VM>() where WINDOW_T : Window;
     }
 }
