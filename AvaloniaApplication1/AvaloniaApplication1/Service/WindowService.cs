@@ -14,7 +14,7 @@ namespace AvaloniaApplication1.Service
         // singletone default injection
         private readonly IServiceProvider _provider;
         private readonly Dictionary<Type, Type> _vm_types;  // view model type 정보 저장해 datacontext 설정시 serivce provider에서 viewmodel을 긁어온다.
-        private readonly Dictionary<Type, Window> _windows;
+        private readonly Dictionary<Type, Window> _windows;  // window raw instance
 
         public WindowService(IServiceProvider provider)
         {
@@ -28,7 +28,6 @@ namespace AvaloniaApplication1.Service
             if (_windows.ContainsKey(typeof(VM)))
             {
                 _windows[typeof(VM)].Close();
-                _windows.Remove(typeof(VM));
             }
         }
 
@@ -42,6 +41,10 @@ namespace AvaloniaApplication1.Service
             if (_windows.TryAdd(typeof(VM), (Window)window))
             {
                 _windows[typeof(VM)].DataContext = _provider.GetRequiredService(vmtype);
+                _windows[typeof(VM)].Closed += (o, e) =>
+                {
+                    _windows.Remove(typeof(VM));
+                };
                 _windows[typeof(VM)].Show();
             }
         }

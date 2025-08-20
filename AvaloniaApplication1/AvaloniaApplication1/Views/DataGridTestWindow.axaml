@@ -10,7 +10,7 @@
   <Design.DataContext>
     <vm:DataGridTestWindowViewModel></vm:DataGridTestWindowViewModel>
   </Design.DataContext>
-
-  <DataGrid>
+  <DataGrid ItemsSource="{Binding My_item}"
+            AutoGenerateColumns="True">
   </DataGrid>
 </Window>
