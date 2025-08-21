@@ -15,13 +15,13 @@
         <vm:MainWindowViewModel>
         </vm:MainWindowViewModel>
     </Design.DataContext>
-
   <StackPanel>
     
     <Button Content="SubwindowTest" Command="{Binding MySubWindowTestButtonCommand}" Width="200" Height="30"></Button>
     <Button Content="MessageboxTest" Command="{Binding MyMessageboxTestButtonCommand}" Width="200" Height="30"></Button>
     <Button Content="ParseTest" Command="{Binding MyParseTestButtonCommand}" Width="200" Height="30"></Button>
     <Button Content="DataGridTest" Command="{Binding MyDataGridTestCommand}" Width="200" Height="30"></Button>
+    <Button Content="LibiioTest" Command="{Binding LibIIOTestCommand}" Width="200" Height="30"></Button>
     <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </StackPanel>
 

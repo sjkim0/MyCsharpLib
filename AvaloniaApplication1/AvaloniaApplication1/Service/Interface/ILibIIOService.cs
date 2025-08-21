@@ -1,4 +1,4 @@
-﻿using AvaloniaApplication1.DataType;
+﻿using AvaloniaApplication1.DataType.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,5 @@ namespace AvaloniaApplication1.Service.Interface
     {
         public void start();
         public void stop();
-        public void command<T>() where T : MyLibiioDeviceType;
     }
 }

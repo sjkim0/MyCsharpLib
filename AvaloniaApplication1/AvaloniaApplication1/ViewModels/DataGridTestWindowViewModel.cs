@@ -33,7 +33,8 @@ namespace AvaloniaApplication1.ViewModels
         {
             _myMessageboxService = myMessageboxService;
             // messenger 등록
-            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, typeof(DataGridTestWindowViewModel).ToString(), ReceiveMessage);
+            string token = typeof(DataGridTestWindowViewModel).ToString();
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, token, ReceiveMessage);
 
             My_item = new ObservableCollection<MyDataGridItem>();
 

@@ -34,6 +34,9 @@ namespace AvaloniaApplication1.Service.Collection
             // parser service 등록
             collection.AddTransient<IMyParserService, MyParserService>();
 
+            // libiio service 등록
+            collection.AddTransient<ILibIIOService, ZedFmcomm3LibiioService>();
+
             // view model 등록 start
             collection.AddTransient<MainWindowViewModel>();
 
@@ -42,6 +45,9 @@ namespace AvaloniaApplication1.Service.Collection
 
             collection.AddTransient<DataGridTestWindowViewModel>();
             collection.AddTransient<DataGridTestWindow>();
+
+            collection.AddTransient<ZedCommLibiioViewModel>();
+            collection.AddTransient<ZedCommLibiioWindow>();
             // view model 등록 end
         }
     }

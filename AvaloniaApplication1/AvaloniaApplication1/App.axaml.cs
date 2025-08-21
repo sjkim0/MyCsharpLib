@@ -32,6 +32,7 @@ namespace AvaloniaApplication1
             var window_service = provider.GetRequiredService<IWindowService>();
             window_service.Register<Window1, Window1ViewModel>();
             window_service.Register<DataGridTestWindow, DataGridTestWindowViewModel>();
+            window_service.Register<ZedCommLibiioWindow, ZedCommLibiioViewModel>();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

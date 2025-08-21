@@ -26,4 +26,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
     <PackageReference Include="System.IO.Ports" Version="9.0.8" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="libiio-sharp">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Common Files\libiio\libiio-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

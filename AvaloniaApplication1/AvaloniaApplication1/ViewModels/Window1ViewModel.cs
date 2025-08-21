@@ -12,7 +12,9 @@ namespace AvaloniaApplication1.ViewModels
     {
         public Window1ViewModel()
         {
-            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, typeof(Window1ViewModel).ToString(), ReceiveMessage);
+            // messenger 등록
+            string token = typeof(Window1ViewModel).ToString();
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, token, ReceiveMessage);
         }
 
         private void ReceiveMessage(object recipient, MyMessengerType message)

@@ -41,7 +41,8 @@ namespace AvaloniaApplication1.ViewModels
             _deviceStateService.AddBoard("my_board after");
 
             // messenger 등록
-            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, typeof(MainWindowViewModel).ToString(), ReceiveMessage);
+            string token = typeof(MainWindowViewModel).ToString();
+            WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, token, ReceiveMessage);
 
             // serial service 등록
             _serialservice.DataReceivedByte += SerialDataReceived;
@@ -144,6 +145,17 @@ namespace AvaloniaApplication1.ViewModels
                 return;
             }
             _windowservice.show<DataGridTestWindowViewModel>();
+        }
+
+
+        [RelayCommand]
+        private void LibIIOTest()
+        {
+            if (_windowservice == null)
+            {
+                return;
+            }
+            _windowservice.show<ZedCommLibiioViewModel>();
         }
     }
 }
