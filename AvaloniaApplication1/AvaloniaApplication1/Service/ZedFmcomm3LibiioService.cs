@@ -1,18 +1,23 @@
-﻿using AvaloniaApplication1.DataType.Base;
+﻿using Avalonia.Threading;
+using AvaloniaApplication1.DataType.Base;
 using AvaloniaApplication1.Service.Interface;
+using iio;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using iio;
-using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AvaloniaApplication1.Service
 {
     public class ZedFmcomm3LibiioService : ILibIIOService
     {
         private Context? ctx;
+        string? ErrorLog;
+        Int32 timeout = 3000;
 
         public void start(string ip)
         {
@@ -42,28 +47,40 @@ namespace AvaloniaApplication1.Service
             throw new NotImplementedException();
         }
 
-        public void start()
+        public async void start()
         {
             ScanContext scanContext = new ScanContext();
+            
+            await ScanStart();
+        }
 
-            // get usb but not working now
-            Dictionary<string, string> usb = scanContext.get_usb_backend_contexts();
-            foreach (string key in usb.Keys)
+        private async Task ScanStart()
+        {
+            try
             {
-            }
+                var task = Task.Run(() =>
+                {
+                    ScanContext scanContext = new ScanContext();
 
-            // get network?
-            Dictionary<string, string> dns_sd = scanContext.get_dns_sd_backend_contexts();
-            foreach (string key in dns_sd.Keys)
+                    Dictionary<string, string> dns_sd = scanContext.get_dns_sd_backend_contexts();
+                    foreach (string key in dns_sd.Keys)
+                    {
+                    }
+                });
+
+                if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
+                {
+                    // task completed within timeout
+                }
+                else
+                {
+                    // timeout logic
+                }
+            }
+            catch(OperationCanceledException)
             {
+
             }
-
-            //?
-            //Dictionary<string, string> local = scanContext.get_local_backend_contexts();
-            //foreach (string key in local.Keys)
-            //{
-            //}
-
         }
     }
 }
