@@ -12,5 +12,12 @@
   </Design.DataContext>
   <StackPanel>
     <TextBlock Text="{Binding ScanState}"></TextBlock>
+    <TreeView>
+      <TreeView.DataTemplates>
+        <DataTemplate>
+          <TextBlock></TextBlock>
+        </DataTemplate>
+      </TreeView.DataTemplates>
+    </TreeView>
   </StackPanel>
 </Window>
