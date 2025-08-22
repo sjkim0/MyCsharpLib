@@ -10,5 +10,7 @@
   <Design.DataContext>
     <vm:ZedCommLibiioViewModel></vm:ZedCommLibiioViewModel>
   </Design.DataContext>
-  Welcome to Avalonia!
+  <StackPanel>
+    <TextBlock Text="{Binding ScanState}"></TextBlock>
+  </StackPanel>
 </Window>

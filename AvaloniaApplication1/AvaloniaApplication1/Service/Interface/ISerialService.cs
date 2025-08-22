@@ -18,4 +18,5 @@ namespace AvaloniaApplication1.Service.Interface
         event EventHandler<string> DataReceivedString;
         event EventHandler<byte[]> DataReceivedByte;
     }
+
 }

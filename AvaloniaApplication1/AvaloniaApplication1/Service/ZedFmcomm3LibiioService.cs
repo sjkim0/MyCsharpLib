@@ -16,8 +16,9 @@ namespace AvaloniaApplication1.Service
     public class ZedFmcomm3LibiioService : ILibIIOService
     {
         private Context? ctx;
-        string? ErrorLog;
-        Int32 timeout = 3000;
+        Int32 timeout = 5000;
+        List<Context>? ctxList;
+        public event EventHandler<ENUM_LIBIIO_SCAN_TASK_STATE>? taskStateCallBack;
 
         public void start(string ip)
         {
@@ -47,7 +48,7 @@ namespace AvaloniaApplication1.Service
             throw new NotImplementedException();
         }
 
-        public async void start()
+        public async void contextScanStart()
         {
             ScanContext scanContext = new ScanContext();
             
@@ -56,30 +57,40 @@ namespace AvaloniaApplication1.Service
 
         private async Task ScanStart()
         {
+            if (taskStateCallBack == null)
+            {
+                return;
+            }
             try
             {
+                taskStateCallBack(this, ENUM_LIBIIO_SCAN_TASK_STATE.ENUM_LIBIIO_SCAN_TASK_STATE_START);
                 var task = Task.Run(() =>
                 {
                     ScanContext scanContext = new ScanContext();
 
                     Dictionary<string, string> dns_sd = scanContext.get_dns_sd_backend_contexts();
+                    ctxList = new List<Context>();
+
                     foreach (string key in dns_sd.Keys)
                     {
+                        ctxList.Add(new Context(key));
                     }
                 });
 
                 if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
                 {
-                    // task completed within timeout
+                    // task completed
+                    taskStateCallBack(this, ENUM_LIBIIO_SCAN_TASK_STATE.ENUM_LIBIIO_SCAN_TASK_STATE_OK);
                 }
                 else
                 {
                     // timeout logic
+                    taskStateCallBack(this, ENUM_LIBIIO_SCAN_TASK_STATE.ENUM_LIBIIO_SCAN_TASK_STATE_TIMEOUT);
                 }
             }
             catch(OperationCanceledException)
             {
-
+                taskStateCallBack(this, ENUM_LIBIIO_SCAN_TASK_STATE.ENUM_LIBIIO_SCAN_TASK_STATE_ERR);
             }
         }
     }
