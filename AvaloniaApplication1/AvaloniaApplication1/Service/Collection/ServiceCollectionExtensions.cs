@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using AvaloniaApplication1.DataType;
 using AvaloniaApplication1.Service.Interface;
 using AvaloniaApplication1.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;

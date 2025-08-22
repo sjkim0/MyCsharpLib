@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:AvaloniaApplication1.ViewModels"
+        xmlns:dt="using:AvaloniaApplication1.DataType"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaApplication1.ZedCommLibiioWindow"
         x:DataType="vm:ZedCommLibiioViewModel"
@@ -12,12 +13,13 @@
   </Design.DataContext>
   <StackPanel>
     <TextBlock Text="{Binding ScanState}"></TextBlock>
-    <TreeView>
-      <TreeView.DataTemplates>
-        <DataTemplate>
-          <TextBlock></TextBlock>
-        </DataTemplate>
-      </TreeView.DataTemplates>
+
+    <TreeView ItemsSource="{Binding Nodes}">
+      <TreeView.ItemTemplate>
+        <TreeDataTemplate DataType="dt:MyTreeNode" ItemsSource="{Binding SubNodes}">
+          <TextBlock Text="{Binding Title}"></TextBlock>
+        </TreeDataTemplate>
+      </TreeView.ItemTemplate>
     </TreeView>
   </StackPanel>
 </Window>

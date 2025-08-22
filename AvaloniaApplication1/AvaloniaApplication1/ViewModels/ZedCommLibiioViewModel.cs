@@ -4,9 +4,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AvaloniaApplication1.ViewModels
 {
@@ -18,6 +20,9 @@ namespace AvaloniaApplication1.ViewModels
         [ObservableProperty]
         public string scanState;
 
+        [ObservableProperty]
+        ObservableCollection<MyTreeNode> nodes;
+        
         // for desing
         public ZedCommLibiioViewModel()
         {
@@ -28,12 +33,19 @@ namespace AvaloniaApplication1.ViewModels
             _myMessageBoxService = myMessageBoxService;
             _libIIOService = libIIOService;
             _libIIOService.taskStateCallBack += taskStateCallback;
+            _libIIOService.contextTreeReturn += contextTreeReturn;
+
 
             // messenger 등록
             string token = typeof(ZedCommLibiioViewModel).ToString();
             WeakReferenceMessenger.Default.Register<MyMessengerType, string>(this, token, ReceiveMessage);
 
             _libIIOService.contextScanStart();
+        }
+
+        private void contextTreeReturn(object? sender, ObservableCollection<MyTreeNode> e)
+        {
+            Nodes = e;
         }
 
         private void taskStateCallback(object? sender, ENUM_LIBIIO_SCAN_TASK_STATE e)

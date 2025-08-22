@@ -33,19 +33,26 @@ namespace AvaloniaApplication1.Service
 
         public void show<VM>() where VM : class
         {
-            var vmtype = typeof(VM);
-            var viewType = _vm_types[typeof(VM)];
-
-            var window = _provider.GetRequiredService(viewType);
-
-            if (_windows.TryAdd(typeof(VM), (Window)window))
+            try
             {
-                _windows[typeof(VM)].DataContext = _provider.GetRequiredService(vmtype);
-                _windows[typeof(VM)].Closed += (o, e) =>
+                var vmtype = typeof(VM);
+                var viewType = _vm_types[typeof(VM)];
+
+                var window = _provider.GetRequiredService(viewType);
+
+                if (_windows.TryAdd(typeof(VM), (Window)window))
                 {
-                    _windows.Remove(typeof(VM));
-                };
-                _windows[typeof(VM)].Show();
+                    _windows[typeof(VM)].DataContext = _provider.GetRequiredService(vmtype);
+                    _windows[typeof(VM)].Closed += (o, e) =>
+                    {
+                        _windows.Remove(typeof(VM));
+                    };
+                    _windows[typeof(VM)].Show();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 

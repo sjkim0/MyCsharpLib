@@ -1,6 +1,8 @@
-﻿using AvaloniaApplication1.DataType.Base;
+﻿using AvaloniaApplication1.DataType;
+using AvaloniaApplication1.DataType.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace AvaloniaApplication1.Service.Interface
         public void stop();
 
         public event EventHandler<ENUM_LIBIIO_SCAN_TASK_STATE> taskStateCallBack;
+
+        public event EventHandler<ObservableCollection<MyTreeNode>> contextTreeReturn;
     }
 
     public enum ENUM_LIBIIO_SCAN_TASK_STATE
